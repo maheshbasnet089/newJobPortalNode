@@ -1,4 +1,5 @@
 const appliedJobModel = require("../../model/appliedJobModel");
+const sendEmail = require("../../services/sendEmail");
 
 exports.createAppliedJob = async (req, res) => {
   const { jobId, experience } = req.body;
@@ -76,18 +77,44 @@ exports.getApplicants = async (req, res) => {
   }
 };
 
-exports.approveApplicant = async (req, res) => {
+exports.changeStatus = async (req, res) => {
   try {
-    const applicant = await appliedJobModel.findById(req.params.id);
-    applicant.status = "approved";
-    await applicant.save();
-    res.status(200).json({
-      status: "success",
-      applicant,
-    });
+    if (req.body.status === "rejected") {
+      const applicant = await appliedJobModel.findByIdAndUpdate(req.params.id, {
+        status: req.body.status,
+      });
+      await sendEmail({
+        email: applicant.userId.email,
+        subject: "Application Rejected",
+        message: "Your application has been rejected",
+      });
+      res.status(200).json({
+        status: 200,
+        applicant,
+      });
+    } else if (req.body.status === "accepted") {
+      const applicant = await appliedJobModel.findByIdAndUpdate(req.params.id, {
+        status: req.body.status,
+      });
+      await sendEmail({
+        email: applicant.userId.email,
+        subject: "Application Accepted",
+        message: "Your application has been accepted",
+      });
+
+      res.status(200).json({
+        status: 200,
+        applicant,
+      });
+    } else {
+      res.status(400).json({
+        status: "fail",
+        message: "Invalid status",
+      });
+    }
   } catch (error) {
     res.status(400).json({
-      status: "fail",
+      status: 400,
       message: error,
     });
   }
