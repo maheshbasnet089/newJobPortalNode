@@ -1,4 +1,7 @@
-const { getContact } = require("../controllers/admin/adminController");
+const {
+  getContact,
+  deleteContact,
+} = require("../controllers/admin/adminController");
 const {
   register,
   logIn,
@@ -47,5 +50,6 @@ router.route("/getBookMarkedJobs").get(isAuthenticated, getBookMarkedJobs);
 router.route("/getSimilarJobs/:id").get(getSimilarJobs);
 
 router.route("/contact").post(createContact).get(getContact);
+router.route("/contact/:id").delete(deleteContact);
 
 module.exports = router;

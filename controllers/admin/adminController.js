@@ -109,3 +109,12 @@ exports.getContact = async (req, res) => {
     contacts,
   });
 };
+
+exports.deleteContact = async (req, res) => {
+  const contact = await contactModel.findByIdAndDelete(req.params.id);
+  res.json({
+    status: 200,
+    message: "Contact deleted successfully",
+    contact,
+  });
+};
