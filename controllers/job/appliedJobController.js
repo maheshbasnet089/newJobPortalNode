@@ -84,7 +84,7 @@ exports.changeStatus = async (req, res) => {
         status: req.body.status,
       });
       await sendEmail({
-        email: applicant.userId.email,
+        email: req.body.email,
         subject: "Application Rejected",
         message: "Your application has been rejected",
       });
@@ -97,7 +97,7 @@ exports.changeStatus = async (req, res) => {
         status: req.body.status,
       });
       await sendEmail({
-        email: applicant.userId.email,
+        email: req.body.email,
         subject: "Application Accepted",
         message: "Your application has been accepted",
       });
