@@ -43,7 +43,9 @@ exports.getAppliedJobs = async (req, res) => {
 };
 exports.getAppliedJob = async (req, res) => {
   try {
-    const appliedJob = await appliedJobModel.findById(req.params.id);
+    const appliedJob = await appliedJobModel
+      .findById(req.params.id)
+      .populate("userId");
     res.status(200).json({
       status: "success",
       appliedJob,
@@ -58,7 +60,9 @@ exports.getAppliedJob = async (req, res) => {
 
 exports.getApplicants = async (req, res) => {
   try {
-    const applicants = await appliedJobModel.find({ companyId: req.userId });
+    const applicants = await appliedJobModel
+      .find({ companyId: req.userId })
+      .populate("userId");
     console.log(applicants);
     res.status(200).json({
       status: "success",
