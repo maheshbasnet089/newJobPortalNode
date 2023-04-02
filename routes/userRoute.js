@@ -1,3 +1,4 @@
+const { getContact } = require("../controllers/admin/adminController");
 const {
   register,
   logIn,
@@ -29,7 +30,7 @@ const router = require("express").Router();
 router.route("/register").post(register);
 router.route("/login").post(logIn);
 router.route("/forgotpassword").post(forgotPassword);
-router.route("/resetpassword").post(resetPassword)
+router.route("/resetpassword").post(resetPassword);
 router.route("/checkUser").post(checkUser);
 router
   .route("/profile")
@@ -45,7 +46,6 @@ router.route("/bookMarkJob/:id").get(isAuthenticated, bookMarkJob);
 router.route("/getBookMarkedJobs").get(isAuthenticated, getBookMarkedJobs);
 router.route("/getSimilarJobs/:id").get(getSimilarJobs);
 
-
-router.route("/contact").post(createContact)
+router.route("/contact").post(createContact).get(getContact);
 
 module.exports = router;
