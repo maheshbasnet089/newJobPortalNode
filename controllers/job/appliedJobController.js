@@ -1,7 +1,7 @@
 const appliedJobModel = require("../../model/appliedJobModel");
 
 exports.createAppliedJob = async (req, res) => {
-  const { jobId, firstName, lastName, experience } = req.body;
+  const { jobId, experience } = req.body;
   const companyId = req.body.companyId || 1;
   const userId = req.userId;
   const imagePath = req.file.filename;
@@ -12,8 +12,7 @@ exports.createAppliedJob = async (req, res) => {
       userId,
       companyId,
       jobId,
-      firstName,
-      lastName,
+
       experience,
       cv: `${process.env.BASE_URL}` + imagePath,
     });
@@ -64,6 +63,23 @@ exports.getApplicants = async (req, res) => {
     res.status(200).json({
       status: "success",
       applicants,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "fail",
+      message: error,
+    });
+  }
+};
+
+exports.approveApplicant = async (req, res) => {
+  try {
+    const applicant = await appliedJobModel.findById(req.params.id);
+    applicant.status = "approved";
+    await applicant.save();
+    res.status(200).json({
+      status: "success",
+      applicant,
     });
   } catch (error) {
     res.status(400).json({

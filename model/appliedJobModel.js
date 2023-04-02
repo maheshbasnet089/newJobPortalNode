@@ -18,12 +18,7 @@ const appliedJobSchema = new Schema(
       enum: ["pending", "accepted", "rejected"],
       default: "pending",
     },
-    firstName: {
-      type: String,
-    },
-    lastName: {
-      type: String,
-    },
+
     experience: {
       type: String,
     },

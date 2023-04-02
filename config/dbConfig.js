@@ -12,6 +12,8 @@ function mongoConnection(url) {
       console.log("Database connected");
       userModel.findOne({ role: "admin" }).then((admin) => {
         if (admin) {
+          console.log(admin)
+          // delete
           console.log("Admin already seeded");
           return;
         } else {
@@ -19,11 +21,12 @@ function mongoConnection(url) {
             .create({
               name: "admin",
               email: "admin@gmail.com",
-              password: "admin",
-              confirmPassword: "admin",
+              password: "password",
+              confirmPassword: "password",
               role: "admin",
             })
             .then((admin) => {
+              console.log(admin);
               console.log("Admin seeded");
             });
         }
