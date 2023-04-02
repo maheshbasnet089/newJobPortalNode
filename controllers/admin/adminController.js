@@ -1,5 +1,6 @@
 const categoryModel = require("../../model/categoryModel");
 const companyModel = require("../../model/companyModel");
+const contactModel = require("../../model/contactModel");
 const jobModel = require("../../model/jobModel");
 const userModel = require("../../model/userModel");
 const sendEmail = require("../../services/sendEmail");
@@ -86,7 +87,7 @@ exports.deleteCategory = async (req, res) => {
 
 exports.massNotification = async (req, res) => {
   const { message } = req.body;
-  const users = await  userModel.find();
+  const users = await userModel.find();
   users.forEach(async (user) => {
     await sendEmail({
       email: user.email,
@@ -97,5 +98,14 @@ exports.massNotification = async (req, res) => {
   res.json({
     status: 200,
     message: "Notification sent successfully",
+  });
+};
+
+exports.getContact = async (req, res) => {
+  const contacts = await contactModel.find();
+  res.json({
+    status: 200,
+    message: "Contact fetched successfully",
+    contacts,
   });
 };
