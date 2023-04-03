@@ -101,11 +101,13 @@ exports.unFollow = async (req, res) => {
 
 exports.getCompanyMessages = async (req, res) => {
   console.log(req.userId);
-  const messages = await chatModel.find({
-    chatUsers: { $all: [req.userId] },
-  });
+  const messages = await chatModel
+    .find({
+      chatUsers: { $all: [req.userId] },
+    })
+    .populate("sender");
 
-  console.log(messages);
+  
   res.json({
     status: 200,
     messages,
